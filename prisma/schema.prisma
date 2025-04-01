@@ -1,0 +1,32 @@
+// Prisma şemanız
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"  // Veritabanı tipi, istediğiniz veritabanı türüne göre değiştirebilirsiniz.
+  url      = env("DATABASE_URL")
+}
+
+// User Modeli: Kullanıcı bilgilerini tutar
+model User {
+  id        Int      @id @default(autoincrement()) 
+  email     String   @unique                        
+  password  String                                   
+  name      String?                                  
+  blogs     Blog[]   // Kullanıcının sahip olduğu blog yazıları (Bir kullanıcı birden fazla blog yazabilir)
+  createdAt DateTime @default(now())                 
+  updatedAt DateTime @updatedAt                      
+}
+
+// Blog Modeli: Blog yazısı bilgilerini tutar
+model Blog {
+  id        Int      @id @default(autoincrement())  
+  title     String                                  
+  content   String                                  
+  authorId  Int      // Blog yazısının sahibi olan kullanıcının ID'si
+  author    User     @relation(fields: [authorId], references: [id]) // Blog yazısının sahibi kullanıcıyı belirtir (User ile ilişki kurar)
+  createdAt DateTime @default(now())                  
+  updatedAt DateTime @updatedAt                      
+}
