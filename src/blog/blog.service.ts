@@ -21,7 +21,16 @@ export class BlogService {
   }
   
   async getAllBlogs() {
-    return this.prisma.blog.findMany();
+    return this.prisma.blog.findMany({
+      include : {
+        author : {
+          select : {
+            email : true,
+            name : true, // yazarın email ve adını dahil et
+          }
+        }
+      }
+    });
   }
 
   async findAll(user: any) {
@@ -32,9 +41,36 @@ export class BlogService {
     return this.prisma.blog.findMany({
       where: {
         authorId: user.sub,  // sadece kullanıcının idsine özel blogları listele
-      },
+      }, 
+      include : {
+        author : {
+          select : {
+            email : true,
+            name : true, // yazarın email ve adını dahil et
+          }
+        }
+      }
     });
   }
+
+  
+  async findBlogById(blodId : number){
+    return this.prisma.blog.findUnique({
+      where : {
+        id : blodId,
+      },
+      include : {
+        author : {
+          select : {
+            email : true,
+            name : true,
+          }
+        }
+      }
+    })
+  }
+
+
 
   async deleteAllBlogs(user: any) {
     if (!user || !user.sub) {
@@ -48,7 +84,7 @@ export class BlogService {
     });
   }
 
-  async deleteBlogById(user: any, blogId: number) {
+  async deleteAllBlogById(user: any, blogId: number) {
     if (!user || !user.sub) {
       throw new Error('Kullanıcı ID si doğrulanamadı!');
     }
@@ -60,4 +96,18 @@ export class BlogService {
       },
     });
   }
+
+async deleteBlog(user: any, blogId: number) {
+  if (!user || !user.sub) {
+    throw new Error('Kullanıcı ID si doğrulanamadı!');
+  }
+
+  return this.prisma.blog.delete({
+    where: {
+      id: blogId,
+      authorId: user.sub,  // sadece kullanıcının idsine özel blogları sil
+    },
+  });
+  }
+
 }

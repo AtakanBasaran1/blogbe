@@ -6,7 +6,7 @@ import { JwtStrategy } from './jwt.strategy';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Module({
-  imports: [JwtModule.register({ secret: 'secretKey', signOptions: { expiresIn: '60m' } })],
+  imports: [JwtModule.register({ secret: 'secretKey', signOptions: { expiresIn: '120m' } })],
   providers: [AuthService, JwtStrategy, PrismaService],
   controllers: [AuthController],
 })

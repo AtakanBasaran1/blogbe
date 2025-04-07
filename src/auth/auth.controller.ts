@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body } from '@nestjs/common';
+import { Controller, Post, Get, Body, Patch, Param } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserDto } from 'src/Dto/user.dto';
 
@@ -20,5 +20,16 @@ export class AuthController {
     async getAllUsers(){
         return this.authService.getAllUsers();
     }
+
+    @Patch('change-password/:id')
+    async changePassword(
+        @Param('id') id: number,
+        @Body('oldPassword') oldPassword: string,
+        @Body('newPassword') newPassword: string, 
+    ) {
+        const changePasswordDto = { userId: id, oldPassword, newPassword };
+        return this.authService.changePassword(changePasswordDto);
+    }
+        
     
 }
