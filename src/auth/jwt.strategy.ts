@@ -15,6 +15,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) { // Passport strate
 
   // validate metodu, JWT doğrulandıktan sonra çağrılır ve doğrulama bilgilerini kullanarak kullanıcı verisini döner
   async validate(payload: JwtPayload) {
-    return { userId: payload.sub, email: payload.email }; // JWT payload'ından gelen bilgileri kullanarak kullanıcıyı doğrular, burada 'sub' kullanıcı id'si ve 'email' kullanıcının e-posta adresidir
+    return { sub : payload.sub, email: payload.email }; // JWT payload'ından gelen bilgileri kullanarak kullanıcıyı doğrular, burada 'sub' kullanıcı id'si ve 'email' kullanıcının e-posta adresidir
   }
 }

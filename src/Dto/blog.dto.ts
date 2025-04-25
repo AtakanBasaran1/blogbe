@@ -11,5 +11,17 @@ export class BlogDto {
 
   @IsString()
   @IsOptional()
+  category? : string;
+
+  @IsString()
+  @IsOptional()
+  tag? : string;
+
+  @IsString()
+  @IsOptional()
+  comments? : string;
+
+  @IsString()
+  @IsOptional()
   authorId?: number; 
 }

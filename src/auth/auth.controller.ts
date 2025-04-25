@@ -30,6 +30,5 @@ export class AuthController {
         const changePasswordDto = { userId: id, oldPassword, newPassword };
         return this.authService.changePassword(changePasswordDto);
     }
-        
     
 }
